@@ -1,0 +1,18 @@
+:root {
+  --nlpt-orange: #F14D00;
+  --nlpt-white: #FFFFFF;
+  --nlpt-black: #484646;
+  --nlpt-gray: #BFB4B0;
+}
+
+body {
+  margin: 0;
+  padidng: 0;
+  font-family: sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: var(--nlpt-orange);
+  margin: 50px 0;
+}
