@@ -1,13 +1,13 @@
 # AgeWise by Next Level PT
 
-Welcome to **AgeWise by Next Level PT**, a pioneering chat application designed to empower individuals over 40 with knowledge and solutions for managing chronic pain. Developed by the team at Next Level Physical Therapy, AgeWise leverages the advanced capabilities of OpenAI to provide personalized advice, educational content, and actionable strategies for pain relief without the need for medications, injections, or surgeries.
+Welcome to **AgeWise by Next Level PT**, a pioneering chat application designed to empower individuals over 40 with knowledge and solutions for managing chronic pain. Developed by the team at Next Level Physical Therapy, AgeWise leverages the advanced capabilities of AI to provide personalized advice, educational content, and actionable strategies for pain relief without the need for medications, injections, or surgeries.
 
 ## Features
 
-- **Personalized Chat Experience**: Engage in conversations that help clarify your pain points and offer tailored advice.
-- **Educational Content**: Access a wealth of information about non-pharmacological approaches to managing chronic pain.
-- **Actionable Solutions**: Discover exercises, lifestyle adjustments, and techniques that can alleviate your discomfort.
-- **User-Friendly Interface**: Enjoy a simple, intuitive interface designed for ease of use, regardless of tech-savviness.
+**Personalized Chat Experience**: Engage in conversations that help clarify your pain points and offer tailored advice.
+**Educational Content**: Access a wealth of information about non-pharmacological approaches to managing chronic pain.
+**Actionable Solutions**: Discover exercises, lifestyle adjustments, and techniques that can alleviate your discomfort.
+**User-Friendly Interface**: Enjoy a simple, intuitive interface designed for ease of use, regardless of tech-savviness.
 
 ## Getting Started
 
