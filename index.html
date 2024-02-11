@@ -85,7 +85,7 @@
         <p>To help you further with your journey towards managing pain, we'd love to follow up with personalized advice and solutions. Please share your contact details below.</p>
       <form id="userInfoForm">
         <label for="name">Name:</label>
-        <input required type="text" id="name" name="name" placeholder="Name">
+        <input type="text" id="name" name="name" placeholder="Name">
         <label for="age">Age:</label>
         <input type="number" id="age" name="age" min="0" max="120" placeholder="Age">
         <label for="gender">Gender:</label>
@@ -96,9 +96,9 @@
           <option value="other">Prefer Not to Say</option>
         </select>
         <label for="email">Email:</label>
-        <input required type="email" id="email" name="email"placeholder="Email">
+        <input type="email" id="email" name="email"placeholder="Email">
         <label for="phone">Phone:</label>
-        <input required type="tel" id="phone" name="phone" placeholder="Phone">
+        <input type="tel" id="phone" name="phone" placeholder="Phone">
         <select id="contactTime" name="contactTime">
           <option value="" disabled selected>Best Time to Contact</option>
           <option value="morning">Morning</option>
@@ -106,8 +106,8 @@
           <option value="evening">Evening</option>
         </select>
         <p id="disclaimerForm">* Your information will be kept confidential and only used to provide you with support and updates.</p>
-        <button type="submit" id="submitUserInfo">Contact Me</button>
-        <button type="submit" id="cancelUserInfo">No Thanks</button>
+        <button type="button" id="submitUserInfo">Contact Me</button>
+        <button type="button" id="cancelUserInfo">No Thanks</button>
       </form>
     </div>
   </div>

@@ -28,23 +28,82 @@ function submitUserInput(event) {
   userInput.value = '';
 }
 
-document.querySelector('#userInput').addEventListener('keypress', function (e) {
-  if (e.key === 'Enter') {
-    submitUserInput(e);
+document.querySelector('#userInput').addEventListener('keypress', function (event) {
+  if (event.key === 'Enter') {
+    submitUserInput(event);
   }
 });
 
+function clearForm() {
+  document.querySelector('#name').value = '';
+  document.querySelector('#age').value = '';
+  document.querySelector('#gender').value = '';
+  document.querySelector('#email').value = '';
+  document.querySelector('#phone').value = '';
+  document.querySelector('#contactTime').value = '';
+}
+
+
 // Make #modal switch between display: none and display: flex
+const toggleModal = () => {
+  const modal = document.getElementById('modal');
+  const inputs = modal.querySelectorAll('input[name="name"], input[name="email"], input[name="phone"]');
+  if (modal.style.display === 'none') {
+    modal.style.display = 'flex';
+    inputs.forEach(input => {
+      input.setAttribute('required', true);
+    });
+  } else {
+    modal.style.display = 'none';
+    inputs.forEach(input => {
+      input.removeAttribute('required');
+    });
+  }
+}
 
-// When user clicks #contactButton set #modal to display: flex
+// When user clicks .contactButton run toggleModal();
+const contactButton = document.querySelector('.contactButton');
 
-// When user tries to leave AgeWise set #modal to display: flex
+contactButton.addEventListener('click', toggleModal);
 
 // When user clicks #cancelUserInfo set #modal to display: none
+const cancelButton = document.querySelector('#cancelUserInfo');
+
+cancelButton.addEventListener('click', toggleModal);
 
 // When user clicks #sendUserInfo create a new person object with collected information
+const sendUserInfo = document.querySelector('#submitUserInfo');
 
+sendUserInfo.addEventListener('click', (event) => {
+  event.preventDefault();
+  const name = document.querySelector('#name').value;
+  const age = document.querySelector('#age').value;
+  const gender = document.querySelector('#gender').value;
+  const email = document.querySelector('#email').value;
+  const phone = document.querySelector('#phone').value;
+  const contactTime = document.querySelector('#contactTime').value;
+  const person = {
+    name,
+    age,
+    gender,
+    email,
+    phone,
+    contactTime
+  };
+  console.log(person);
 // When user clicks #sendUserInfo set #modal to display: none
+  clearForm();
+  toggleModal();
+});
 
-// When user click outside of #userInfoContainer set #modal to display: none
+// When user clicks outside of #userInfoContainer set #modal to display: none
+document.addEventListener('click', (event) => {
+  const userInfoContainer = document.querySelector('#userInfoContainer');
+  const contactButton = document.querySelector('.contactButton');
+  if (!userInfoContainer.contains(event.target) && event.target !== contactButton) {
+    toggleModal();
+  }
+});
 
+// Run toggleModal when the mouse exits the viewport
+document.addEventListener('mouseleave', toggleModal);

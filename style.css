@@ -243,11 +243,14 @@ li {
   color: var(--nlpt-black);
 }
 
-#userInfoContainer input:focus, #userInfoContainer select:focus {
-  outline: none;
+#userInfoContainer input:focus,
+#userInfoContainer select:focus {
+  outline: 2px solid transparent;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 }
 
-#userInfoContainer input, #userInfoContainer select {
+#userInfoContainer input,
+#userInfoContainer select {
   font-size: 1.5em;
   color: var(--nlpt-black);
   border: none;
