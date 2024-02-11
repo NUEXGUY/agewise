@@ -33,3 +33,18 @@ document.querySelector('#userInput').addEventListener('keypress', function (e) {
     submitUserInput(e);
   }
 });
+
+// Make #modal switch between display: none and display: flex
+
+// When user clicks #contactButton set #modal to display: flex
+
+// When user tries to leave AgeWise set #modal to display: flex
+
+// When user clicks #cancelUserInfo set #modal to display: none
+
+// When user clicks #sendUserInfo create a new person object with collected information
+
+// When user clicks #sendUserInfo set #modal to display: none
+
+// When user click outside of #userInfoContainer set #modal to display: none
+

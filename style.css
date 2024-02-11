@@ -113,7 +113,7 @@ li {
   border-radius: 25px;
   padding: 10px;
   font-size: 1.25em;
-  color: var(--nlpt-black);
+  color: var(--nlpt-orange);
 }
 
 #userInput:focus {
@@ -135,6 +135,22 @@ li {
   font-size: 1.25em;
   cursor: pointer;
   margin: 0 20px;
+}
+
+.contactButton {
+  position: fixed;
+  top: 100px;
+  right: 7px;
+  z-index: 2;
+  font-size: 1.5em;
+  color: var(--nlpt-white);
+  background-color: var(--nlpt-orange);
+  border: none;
+  border-radius: 25px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  padding: 10px 20px;
+  margin: 10px 20px;
+  cursor: pointer;
 }
 
 .chatItemBot, .chatItemUser {
@@ -181,7 +197,7 @@ li {
 }
 
 #modal {
-  display: flex;
+  display: none;
   align-items: top;
   justify-content: center;
   z-index: 2;
@@ -200,7 +216,7 @@ li {
   justify-content: center;
   text-align: center;
   margin-top: 20px;
-  max-width: 85vw;
+  max-width: 65vw;
   max-height: 85vh;
   padding: 20px;
   background-color: var(--nlpt-white);
@@ -219,7 +235,6 @@ li {
   text-align: center;
   font-size: 1.5em;
   color: var(--nlpt-black);
-  max-width: 75vw;
 }
 
 #userInfoContainer label {
