@@ -2,6 +2,13 @@ const sendButton = document.querySelector('#sendButton');
 
 sendButton.addEventListener('click', submitUserInput);
 
+/**
+ * Submits the user input from the form, adds a chat item to the chat container,
+ * and resets the input field and send button state.
+ *
+ * @param {Event} event - the event object
+ * @return {void} 
+ */
 function submitUserInput(event) {
   event.preventDefault();
   const userInput = document.querySelector('#userInput');
