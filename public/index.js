@@ -74,7 +74,7 @@ cancelButton.addEventListener('click', toggleModal);
 // When user clicks #sendUserInfo create a new person object with collected information
 const sendUserInfo = document.querySelector('#submitUserInfo');
 
-sendUserInfo.addEventListener('click', (event) => {
+sendUserInfo.addEventListener('click', async (event) => {
   event.preventDefault();
   const name = document.querySelector('#name').value;
   const age = document.querySelector('#age').value;
@@ -82,18 +82,25 @@ sendUserInfo.addEventListener('click', (event) => {
   const email = document.querySelector('#email').value;
   const phone = document.querySelector('#phone').value;
   const contactTime = document.querySelector('#contactTime').value;
-  const person = {
-    name,
-    age,
-    gender,
-    email,
-    phone,
-    contactTime
-  };
-  console.log(person);
-// When user clicks #sendUserInfo set #modal to display: none
-  clearForm();
-  toggleModal();
+  const person = { name, age, gender, email, phone, contactTime };
+
+  try {
+    const response = await fetch('/submit-user-info', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(person)
+    });
+    const data = await response.json();
+    if (data.success) {
+      console.log('User info submitted successfully');
+      clearForm();
+      toggleModal();
+    } else {
+      console.error('Error submitting user info');
+    }
+  } catch (error) {
+    console.error('Error submitting user info:', error);
+  }
 });
 
 // When user clicks outside of #userInfoContainer set #modal to display: none
