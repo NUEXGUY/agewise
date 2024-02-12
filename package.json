@@ -1,0 +1,36 @@
+{
+  "name": "agewise",
+  "version": "1.0.0",
+  "description": "AgeWise is a AgeWise is a chatbot application designed to provide educational support and personalized advice for individuals experiencing chronic pain. Utilizing OpenAI's advanced AI, AgeWise offers an interactive platform for users to learn about non-pharmacological pain management techniques, understand their conditions better, and explore potential solutions for improved well-being.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NUEXGUY/agewise.git"
+  },
+  "keywords": [
+    "chatbot",
+    "healthcare",
+    "physical-therapy",
+    "chronic-pain",
+    "pain-management",
+    "educational",
+    "non-pharmacological",
+    "wellness",
+    "support",
+    "AI",
+    "OpenAI",
+    "personalized-advice"
+  ],
+  "author": "Ryan Pond, John Bernardo, Next Level Physical Therapy INC.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NUEXGUY/agewise/issues"
+  },
+  "homepage": "https://github.com/NUEXGUY/agewise#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

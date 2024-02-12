@@ -107,3 +107,4 @@ document.addEventListener('click', (event) => {
 
 // Run toggleModal when the mouse exits the viewport
 document.addEventListener('mouseleave', toggleModal);
+
