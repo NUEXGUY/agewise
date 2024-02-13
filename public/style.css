@@ -68,24 +68,34 @@ li {
   border-radius: 25px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
-  padding-bottom: 20px;
-  overflow-y: auto;
+  justify-content: flex-end;
 }
 
 #inputBar {
-  position: fixed;
+  position: relative;
   z-index: 1;
-  bottom: 60px;
-  width: 60vw;
+  width: 63vw;
   height: 50px;
+  bottom: 20px;
   background-color: var(--nlpt-white);
   border-radius: 25px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
+  order: 2;
+}
+
+.spacer {
+  height: 1vw;
+}
+
+.chatContent {
+  width: 60vw;
+  height: 10vh;
+  overflow-y: auto;
 }
 
 #chatInput {
@@ -144,6 +154,7 @@ li {
   height: auto;
   border-radius: 25px;
   font-size: 1.25em;
+  overflow: hidden;
 }
 
 .chatItemBot {
@@ -286,4 +297,17 @@ button:hover {
   opacity: .7;
   text-align: left;
   margin: 20px 20px;
+}
+
+#footer #year {
+  font-size: 1em;
+  color: var(--nlpt-black);
+  opacity: .7;
+}
+
+#footer a {
+  text-decoration: none;
+  font-size: 1em;
+  color: var(--nlpt-black);
+  opacity: .7;
 }

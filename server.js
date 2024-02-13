@@ -51,23 +51,51 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-app.post('/chat-message', async (req, res) => {
-  const userMessage = req.body.message;
+// Initial message flag
+let initialMessageSent = false;
+
+// Function to send initial message and handle subsequent messages
+async function handleChatMessage(req, res) {
+  // Handle subsequent user messages (if flag is true)
+  if (initialMessageSent) {
+    const userMessage = req.body.message;
+    // Process user message here (e.g., send to OpenAI)
+    return; // Exit if handling subsequent message
+  }
+
+  // Initial message logic
+  const prompt = "Share a simple greeting to get someone who is living with chronic pain to open up. Something like 'Feel free to ask me any question about your pain or discomfort. What's been bothering you lately?' without including any extra information, context, or lead in";
 
   try {
+    console.log(`Prompt: ${prompt}`); // Log prompt for debugging
+
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo-0125",
       messages: [
         { role: "system", content: "You are a helpful assistant." },
-        { role: "user", content: userMessage }
+        { role: "user", content: prompt },
       ],
     });
 
-    // Accessing response structure based on the documentation:
     const aiResponse = completion.choices[0].message.content;
     res.json({ message: aiResponse });
+    initialMessageSent = true;
   } catch (error) {
     console.error("Error communicating with OpenAI:", error);
     res.status(500).json({ message: "Failed to fetch response from OpenAI", error: error.message });
+  }
+}
+
+app.post('/trigger-initial-message', async (req, res) => {
+  initialMessageSent = false;
+
+  try {
+    const handledData = await handleChatMessage(req, res); // Pass along response details for logging if needed
+    console.log('Data handled in handleChatMessage:', handledData); // Example logging
+
+    res.json({ message: "Initial message triggered successfully" });
+  } catch (error) {
+    console.error("Error triggering initial message:", error);
+    res.status(500).json({ message: "Error triggering initial message", error: error.message });
   }
 });
