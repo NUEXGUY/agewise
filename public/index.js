@@ -12,29 +12,52 @@ function clearForm() {
 }
 
 const modal = document.querySelector('#modal');
-const contactButton = document.querySelector('.contactButton');
+const contactButton = document.querySelector('#contactButton');
+
 
 // Toggle modal with overlay and disable/enable inputs
 const toggleModal = () => {
-  modal.classList.toggle('active');
+  modal.style.display = (modal.style.display === 'none' || modal.style.display === '') ? 'flex' : 'none';
   const inputs = modal.querySelectorAll('input, select');
-  inputs.forEach(input => input.disabled = modal.classList.contains('active'));
+  inputs.forEach(input => input.disabled = modal.style.display === 'none');
 };
 
 contactButton.addEventListener('click', toggleModal);
-
-// Close modal on clicking outside or leaving page
-const closeModal = () => {
-  if (modal.classList.contains('active')) {
-    modal.classList.remove('active');
-  }
-};
-
 document.addEventListener('click', (event) => {
-  if (!modal.contains(event.target)) {
-    closeModal();
+  const modalElement = document.querySelector('#modal');
+  if (!modalElement.contains(event.target) && modalIsOpen) {
+    // Do nothing, prevent closing due to outside click
   }
 });
+
+let modalIsOpen = false;
+
+window.addEventListener('blur', () => {
+  if (!modalIsOpen) {
+    modalIsOpen = true;
+    toggleModal();
+  }
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') {
+    if (!modalIsOpen) {
+      modalIsOpen = true;
+      toggleModal();
+    }
+  } else {
+  }
+});
+
+document.querySelector('#cancelUserInfo').addEventListener('click', () => {
+  modalIsOpen = false;
+  toggleModal();
+});
+
+const closeModal = () => {
+  modalIsOpen = false;
+  toggleModal();
+}
 
 // When user clicks #sendUserInfo create a new person object with collected information
 const sendUserInfo = document.querySelector('#submitUserInfo');
@@ -59,7 +82,7 @@ sendUserInfo.addEventListener('click', async (event) => {
     if (data.success) {
       console.log('User info submitted successfully');
       clearForm();
-      toggleModal();
+      closeModal();
     } else {
       console.error('Error submitting user info');
     }
@@ -68,9 +91,20 @@ sendUserInfo.addEventListener('click', async (event) => {
   }
 });
 
+// Using keydown for better compatibility
+const chatInput = document.querySelector('#chatInput');
+
+chatInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' && event.target === chatInput) {
+    event.preventDefault();
+    submitChatMessage(chatInput.value);
+    chatInput.value = '';
+  }
+});
+
+
 // Function for submitting chat messages
 async function submitChatMessage(event) {
-  event.preventDefault();
   const chatInput = document.querySelector('#chatInput');
   const chatInputValue = chatInput.value;
   addChatItem('User', chatInputValue);
