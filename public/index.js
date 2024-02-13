@@ -1,14 +1,7 @@
 const sendButton = document.querySelector('#sendButton');
 
-sendButton.addEventListener('click', submitUserInput);
+chatSendButton.addEventListener('click', submitUserInput);
 
-/**
- * Submits the user input from the form, adds a chat item to the chat container,
- * and resets the input field and send button state.
- *
- * @param {Event} event - the event object
- * @return {void} 
- */
 function submitUserInput(event) {
   event.preventDefault();
   const userInput = document.querySelector('#userInput');
@@ -43,33 +36,39 @@ function clearForm() {
   document.querySelector('#contactTime').value = '';
 }
 
-
-// Make #modal switch between display: none and display: flex
-const toggleModal = () => {
-  const modal = document.getElementById('modal');
-  const inputs = modal.querySelectorAll('input[name="name"], input[name="email"], input[name="phone"]');
-  if (modal.style.display === 'none') {
-    modal.style.display = 'flex';
-    inputs.forEach(input => {
-      input.setAttribute('required', true);
-    });
-  } else {
-    modal.style.display = 'none';
-    inputs.forEach(input => {
-      input.removeAttribute('required');
-    });
-  }
-}
-
-// When user clicks .contactButton run toggleModal();
+const modal = document.getElementById('modal');
 const contactButton = document.querySelector('.contactButton');
+
+// Disable form submission on Enter key when modal is open
+modal.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' && event.target.tagName === 'FORM') {
+    event.preventDefault();
+  }
+});
+
+// Toggle modal with overlay and disable/enable inputs
+const toggleModal = () => {
+  modal.classList.toggle('active'); // Use CSS class for styling
+  const inputs = modal.querySelectorAll('input, select');
+  inputs.forEach(input => input.disabled = modal.classList.contains('active'));
+};
 
 contactButton.addEventListener('click', toggleModal);
 
-// When user clicks #cancelUserInfo set #modal to display: none
-const cancelButton = document.querySelector('#cancelUserInfo');
+// Close modal on clicking outside or leaving page
+const closeModal = () => {
+  if (modal.classList.contains('active')) {
+    modal.classList.remove('active');
+  }
+};
 
-cancelButton.addEventListener('click', toggleModal);
+document.addEventListener('click', (event) => {
+  if (!modal.contains(event.target)) {
+    closeModal();
+  }
+});
+
+document.addEventListener('mouseleave', closeModal); // Consider alternative trigger
 
 // When user clicks #sendUserInfo create a new person object with collected information
 const sendUserInfo = document.querySelector('#submitUserInfo');
@@ -103,15 +102,87 @@ sendUserInfo.addEventListener('click', async (event) => {
   }
 });
 
-// When user clicks outside of #userInfoContainer set #modal to display: none
-document.addEventListener('click', (event) => {
-  const userInfoContainer = document.querySelector('#userInfoContainer');
-  const contactButton = document.querySelector('.contactButton');
-  if (!userInfoContainer.contains(event.target) && event.target !== contactButton) {
-    toggleModal();
+// Function for submitting user form input (remains unchanged)
+async function submitUserInput(event) {
+  event.preventDefault();
+  const name = document.querySelector('#name').value;
+  const age = document.querySelector('#age').value;
+  const gender = document.querySelector('#gender').value;
+  const email = document.querySelector('#email').value;
+  const phone = document.querySelector('#phone').value;
+  const contactTime = document.querySelector('#contactTime').value;
+  const person = { name, age, gender, email, phone, contactTime };
+
+  try {
+    const response = await fetch('/submit-user-info', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(person)
+    });
+    const data = await response.json();
+    if (data.success) {
+      console.log('User info submitted successfully');
+      clearForm();
+      toggleModal();
+    } else {
+      console.error('Error submitting user info');
+    }
+  } catch (error) {
+    console.error('Error submitting user info:', error);
   }
-});
+}
 
-// Run toggleModal when the mouse exits the viewport
-document.addEventListener('mouseleave', toggleModal);
+// New function for submitting chat messages
+async function submitChatMessage(event) {
+  event.preventDefault();
 
+  const userInput = document.querySelector('#userInput');
+  const userInputValue = userInput.value;
+
+  // Display user's message immediately
+  addChatItem('User', userInputValue);
+
+  try {
+    const aiResponse = await sendChatMessage(userInputValue);
+
+    // Ensure aiResponse is available before adding AI message
+    await new Promise(resolve => setTimeout(resolve, 100)); // Optional delay for testing
+
+    // Display AI's response with proper delay
+    addChatItem('AI', aiResponse);
+  } catch (error) {
+    console.error('Error sending chat message:', error);
+  }
+
+  userInput.value = ''; // Reset the input field
+}
+
+// Renamed and refactored chat message sending function
+async function sendChatMessage(message) {
+  try {
+    const response = await fetch('/chat-message', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message })
+    });
+    const data = await response.json();
+    return data.message; // Return the AI response
+  } catch (error) {
+    console.error('Error sending chat message:', error);
+    return "Sorry, I couldn't process your message."; // Fallback message
+  }
+}
+
+// Helper function for adding chat items to the UI
+function addChatItem(sender, message) {
+  const chatItem = document.createElement('div');
+  chatItem.classList.add(sender === 'AI' ? 'chatItemAI' : 'chatItemUser');
+  
+  const chatText = document.createElement('p');
+  chatText.classList.add(sender === 'AI' ? 'chatTextAI' : 'chatTextUser');
+  chatText.textContent = message;
+  
+  const chatContainer = document.getElementById('chatContainer');
+  chatContainer.insertAdjacentElement('afterbegin', chatItem);
+  chatItem.appendChild(chatText);
+}

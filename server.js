@@ -3,7 +3,7 @@ console.log(process.env.DB_HOST);
 console.log(process.env.DB_USER);
 console.log(process.env.DB_PASSWORD);
 console.log(process.env.DB_NAME);
-
+const mysql = require('mysql2/promise');
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -14,14 +14,13 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0
 });
-
 const express = require('express');
 const app = express();
 app.use(express.static('public'));
 app.use(express.json());
 
 // Start the server
-const port = 3000;
+const port = 3001;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
@@ -50,32 +49,29 @@ app.post('/submit-user-info', async (req, res) => {
   }
 });
 
-const mysql = require('mysql2/promise');
+const OpenAI = require("openai");
 
-// async function checkDatabaseConnection() {
-//   try {
-//     const connection = await mysql.createConnection({
-//       host: process.env.DB_HOST,
-//       user: process.env.DB_USER,
-//       password: process.env.DB_PASSWORD,
-//       database: process.env.DB_NAME,
-//       ssl: {
-//         rejectUnauthorized: true
-//       }
-//     });
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
-//     // This is a simple query that doesn't depend on any table
-//     const [rows] = await connection.execute('SELECT 1;');
-//     console.log('Connection to the PlanetScale database successful:', rows);
-//     // Close the connection after the check
-//     await connection.end();
-//   } catch (error) {
-//     console.error('Unable to connect to the PlanetScale database:', error);
-//   }
-// }
+app.post('/chat-message', async (req, res) => {
+  const userMessage = req.body.message;
 
-// // Call the function to test the connection
-// checkDatabaseConnection();
+  try {
+    const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo-0125",
+      messages: [
+        { role: "system", content: "You are a helpful assistant." },
+        { role: "user", content: userMessage }
+      ],
+    });
 
-
-// Write the person object that is created by index.js to Planet Scale DB
+    // Accessing response structure based on the documentation:
+    const aiResponse = completion.choices[0].message.content;
+    res.json({ message: aiResponse });
+  } catch (error) {
+    console.error("Error communicating with OpenAI:", error);
+    res.status(500).json({ message: "Failed to fetch response from OpenAI", error: error.message });
+  }
+});
