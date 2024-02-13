@@ -1,6 +1,6 @@
 const chatSendButton = document.querySelector('#chatSendButton');
 
-chatSendButton.addEventListener('click', submitChatMessage);
+chatSendButton.addEventListener('click', sendChatMessage);
 
 function clearForm() {
   document.querySelector('#name').value = '';
@@ -97,37 +97,17 @@ const chatInput = document.querySelector('#chatInput');
 chatInput.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && event.target === chatInput) {
     event.preventDefault();
-    submitChatMessage(chatInput.value);
+    sendChatMessage(chatInput.value);
     chatInput.value = '';
   }
 });
 
-// Function for submitting chat messages
-async function submitChatMessage() {
-  const chatInput = document.querySelector('#chatInput');
-  const chatInputValue = chatInput.value;
-
-  try {
-    const response = await fetch('/chat-message', {
-      method: 'POST',
-      body: JSON.stringify({ message: chatInputValue }),
-    });
-    const data = await response.json();
-
-    addChatItem('User', chatInputValue);
-
-    const aiResponse = data.message;
-    await new Promise(resolve => setTimeout(resolve, 100));
-    addChatItem('AI', aiResponse);
-  } catch (error) {
-    console.error('Error sending chat message:', error);
+// Send message to OpenAI
+async function sendChatMessage(message, isUser) {
+  if (isUser) {
+    addChatItem('User', message);
   }
 
-  chatInput.value = '';
-}
-
-// Chat message send function
-async function sendChatMessage(message) {
   try {
     const response = await fetch('/chat-message', {
       method: 'POST',
@@ -135,14 +115,18 @@ async function sendChatMessage(message) {
       body: JSON.stringify({ message })
     });
     const data = await response.json();
-    return data.message;
+
+    await new Promise(resolve => setTimeout(resolve, 100)); // Wait for a short time (optional)
+
+    addChatItem('AI', data.message); // Add AI's response to the chat
   } catch (error) {
     console.error('Error sending chat message:', error);
-    return "Sorry, I couldn't process your message.";
+    addChatItem('AI', "Sorry, I couldn't process your message."); // Add error message to the chat
   }
 }
 
 function addChatItem(sender, message) {
+  console.log("sender:", sender, "message:", message);
   const chatItem = document.createElement('div');
   chatItem.classList.add(sender === 'AI' ? 'chatItemBot' : 'chatItemUser');
   
