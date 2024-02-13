@@ -53,10 +53,6 @@ const openai = new OpenAI({
 
 // Function to send messages
 async function handleChatMessage(req, res) {
-  if (initialMessageSent) {
-    const userMessage = req.body.message;
-    return;
-  }
   try {
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo-0125",
@@ -68,7 +64,6 @@ async function handleChatMessage(req, res) {
 
     const aiResponse = completion.choices[0].message.content;
     res.json({ message: aiResponse });
-    initialMessageSent = true;
   } catch (error) {
     console.error("Error communicating with OpenAI:", error);
     res.status(500).json({ message: "Failed to fetch response from OpenAI", error: error.message });

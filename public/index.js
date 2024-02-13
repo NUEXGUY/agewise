@@ -107,7 +107,6 @@ async function submitChatMessage() {
   const chatInput = document.querySelector('#chatInput');
   const chatInputValue = chatInput.value;
 
-  // Check for first request and display initial message if present
   try {
     const response = await fetch('/chat-message', {
       method: 'POST',
@@ -115,16 +114,11 @@ async function submitChatMessage() {
     });
     const data = await response.json();
 
-    // Check if the received message has a "system" role
-    if (data.message.startsWith('You are a helpful assistant.')) {
-      addChatItem('AI', data.message);
-    } else {
-      addChatItem('User', chatInputValue);
+    addChatItem('User', chatInputValue);
 
-      const aiResponse = data.message;
-      await new Promise(resolve => setTimeout(resolve, 100));
-      addChatItem('AI', aiResponse);
-    }
+    const aiResponse = data.message;
+    await new Promise(resolve => setTimeout(resolve, 100));
+    addChatItem('AI', aiResponse);
   } catch (error) {
     console.error('Error sending chat message:', error);
   }
@@ -168,55 +162,3 @@ function addChatItem(sender, message) {
   }
   chatItem.appendChild(chatText);
 }
-
-async function fetchInitialMessage() {
-    const response = await fetch('/chat-message', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ initialMessage: true })
-    });
-    const data = await response.json();
-    return data.message;
-}
-
-function displayInitialMessage(message) {
-  addChatItem("AI", message);
-}
-
-document.addEventListener("load", async () => {
-  const message = await fetchInitialMessage();
-  displayInitialMessage(message);
-});
-
-document.addEventListener('DOMContentLoaded', async function() {
-  const initialMessageResponse = await fetch('/trigger-initial-message', {
-    method: 'POST'
-  });
-
-  if (initialMessageResponse.ok) {
-    // Initial message triggered successfully
-    const message = await fetchInitialMessage();
-    displayInitialMessage(message);
-  } else {
-    // Handle error case (e.g., failed to trigger initial message)
-    console.error('Error triggering initial message:', initialMessageResponse.statusText);
-  }
-});
-
-function createInitialMessage(message) {
-  const chatItem = document.createElement('div');
-  chatItem.classList.add('chatItemBot');
-
-  const chatText = document.createElement('p');
-  chatText.classList.add('chatTextBot');
-  chatText.textContent = message;
-
-  const chatContainer = document.querySelector('#chatContainer');
-  chatContainer.appendChild(chatItem);
-  chatItem.appendChild(chatText);
-}
-
-window.onload = function() {
-  const initialMessage = "Feel free to ask me any question about your pain or discomfort. What's been bothering you lately?";
-  createInitialMessage(initialMessage);
-};
