@@ -74,24 +74,6 @@ li {
   overflow-y: auto;
 }
 
-#chatContainer::before,
-#chatContainer::after {
-  content: '';
-  position: absolute;
-  height: 20px;
-  width: 100%;
-  background: linear-gradient(transparent, var(--nlpt-black));
-  pointer-events: none;
-}
-
-#chatContainer::before {
-  top: 0;
-}
-
-#chatContainer::after {
-  bottom: 0;
-}
-
 #inputBar {
   position: fixed;
   z-index: 1;
@@ -106,7 +88,7 @@ li {
   justify-content: center;
 }
 
-#userInput {
+#chatInput {
   width: 55vw;
   height: 3vh;
   border: none;
@@ -116,11 +98,11 @@ li {
   color: var(--nlpt-orange);
 }
 
-#userInput:focus {
+#chatInput:focus {
   outline: none;
 }
 
-#userInput::placeholder {
+#chatInput::placeholder {
   color: var(--nlpt-orange);
   opacity: 0.7;
 }
@@ -283,7 +265,7 @@ button:hover {
   transform: scale(1.1);
 }
 
-#userInfoContainer #cancelUserInfo {
+#cancelUserInfo {
   background-color: var(--nlpt-gray);
   color: var(--nlpt-black);
   border: 1px solid var(--nlpt-black);
@@ -298,12 +280,7 @@ form {
   padding: 20px;
 }
 
-#age, #gender {
-  flex: 0 0 calc(50% - 10px);
-  margin-bottom: 10px;
-}
-
-#userInfoContainer #disclaimerForm {
+#disclaimerForm {
   font-size: 1em;
   color: var(--nlpt-black);
   opacity: .7;

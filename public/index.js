@@ -1,31 +1,6 @@
-const sendButton = document.querySelector('#sendButton');
+const chatSendButton = document.querySelector('#chatSendButton');
 
-chatSendButton.addEventListener('click', submitUserInput);
-
-function submitUserInput(event) {
-  event.preventDefault();
-  const userInput = document.querySelector('#userInput');
-  const userInputValue = userInput.value;
-  const chatItemUser = document.createElement('div');
-  chatItemUser.classList.add('chatItemUser');
-  const chatTextUser = document.createElement('p');
-  chatTextUser.classList.add('chatTextUser');
-  chatTextUser.textContent = userInputValue;
-  const chatContainer = document.getElementById('chatContainer');
-  chatContainer.insertAdjacentElement('afterbegin', chatItemUser);
-  chatItemUser.appendChild(chatTextUser);
-  sendButton.disabled = true;
-  setTimeout(() => {
-    sendButton.disabled = false;
-  });
-  userInput.value = '';
-}
-
-document.querySelector('#userInput').addEventListener('keypress', function (event) {
-  if (event.key === 'Enter') {
-    submitUserInput(event);
-  }
-});
+chatSendButton.addEventListener('click', submitChatMessage);
 
 function clearForm() {
   document.querySelector('#name').value = '';
@@ -36,19 +11,12 @@ function clearForm() {
   document.querySelector('#contactTime').value = '';
 }
 
-const modal = document.getElementById('modal');
+const modal = document.querySelector('#modal');
 const contactButton = document.querySelector('.contactButton');
-
-// Disable form submission on Enter key when modal is open
-modal.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter' && event.target.tagName === 'FORM') {
-    event.preventDefault();
-  }
-});
 
 // Toggle modal with overlay and disable/enable inputs
 const toggleModal = () => {
-  modal.classList.toggle('active'); // Use CSS class for styling
+  modal.classList.toggle('active');
   const inputs = modal.querySelectorAll('input, select');
   inputs.forEach(input => input.disabled = modal.classList.contains('active'));
 };
@@ -67,8 +35,6 @@ document.addEventListener('click', (event) => {
     closeModal();
   }
 });
-
-document.addEventListener('mouseleave', closeModal); // Consider alternative trigger
 
 // When user clicks #sendUserInfo create a new person object with collected information
 const sendUserInfo = document.querySelector('#submitUserInfo');
@@ -102,62 +68,24 @@ sendUserInfo.addEventListener('click', async (event) => {
   }
 });
 
-// Function for submitting user form input (remains unchanged)
-async function submitUserInput(event) {
-  event.preventDefault();
-  const name = document.querySelector('#name').value;
-  const age = document.querySelector('#age').value;
-  const gender = document.querySelector('#gender').value;
-  const email = document.querySelector('#email').value;
-  const phone = document.querySelector('#phone').value;
-  const contactTime = document.querySelector('#contactTime').value;
-  const person = { name, age, gender, email, phone, contactTime };
-
-  try {
-    const response = await fetch('/submit-user-info', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(person)
-    });
-    const data = await response.json();
-    if (data.success) {
-      console.log('User info submitted successfully');
-      clearForm();
-      toggleModal();
-    } else {
-      console.error('Error submitting user info');
-    }
-  } catch (error) {
-    console.error('Error submitting user info:', error);
-  }
-}
-
-// New function for submitting chat messages
+// Function for submitting chat messages
 async function submitChatMessage(event) {
   event.preventDefault();
-
-  const userInput = document.querySelector('#userInput');
-  const userInputValue = userInput.value;
-
-  // Display user's message immediately
-  addChatItem('User', userInputValue);
+  const chatInput = document.querySelector('#chatInput');
+  const chatInputValue = chatInput.value;
+  addChatItem('User', chatInputValue);
 
   try {
-    const aiResponse = await sendChatMessage(userInputValue);
-
-    // Ensure aiResponse is available before adding AI message
-    await new Promise(resolve => setTimeout(resolve, 100)); // Optional delay for testing
-
-    // Display AI's response with proper delay
+    const aiResponse = await sendChatMessage(chatInputValue);
+    await new Promise(resolve => setTimeout(resolve, 100));
     addChatItem('AI', aiResponse);
   } catch (error) {
     console.error('Error sending chat message:', error);
   }
-
-  userInput.value = ''; // Reset the input field
+  chatInput.value = '';
 }
 
-// Renamed and refactored chat message sending function
+// Chat message send function
 async function sendChatMessage(message) {
   try {
     const response = await fetch('/chat-message', {
@@ -166,23 +94,23 @@ async function sendChatMessage(message) {
       body: JSON.stringify({ message })
     });
     const data = await response.json();
-    return data.message; // Return the AI response
+    return data.message;
   } catch (error) {
     console.error('Error sending chat message:', error);
-    return "Sorry, I couldn't process your message."; // Fallback message
+    return "Sorry, I couldn't process your message.";
   }
 }
 
 // Helper function for adding chat items to the UI
 function addChatItem(sender, message) {
   const chatItem = document.createElement('div');
-  chatItem.classList.add(sender === 'AI' ? 'chatItemAI' : 'chatItemUser');
+  chatItem.classList.add(sender === 'AI' ? 'chatItemBot' : 'chatItemUser');
   
   const chatText = document.createElement('p');
-  chatText.classList.add(sender === 'AI' ? 'chatTextAI' : 'chatTextUser');
+  chatText.classList.add(sender === 'AI' ? 'chatTextBot' : 'chatTextUser');
   chatText.textContent = message;
   
-  const chatContainer = document.getElementById('chatContainer');
+  const chatContainer = document.querySelector('#chatContainer');
   chatContainer.insertAdjacentElement('afterbegin', chatItem);
   chatItem.appendChild(chatText);
 }
