@@ -51,29 +51,18 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Initial message flag
-let initialMessageSent = false;
-
-// Function to send initial message and handle subsequent messages
+// Function to send messages
 async function handleChatMessage(req, res) {
-  // Handle subsequent user messages (if flag is true)
   if (initialMessageSent) {
     const userMessage = req.body.message;
-    // Process user message here (e.g., send to OpenAI)
-    return; // Exit if handling subsequent message
+    return;
   }
-
-  // Initial message logic
-  const prompt = "Share a simple greeting to get someone who is living with chronic pain to open up. Something like 'Feel free to ask me any question about your pain or discomfort. What's been bothering you lately?' without including any extra information, context, or lead in";
-
   try {
-    console.log(`Prompt: ${prompt}`); // Log prompt for debugging
-
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo-0125",
       messages: [
         { role: "system", content: "You are a helpful assistant." },
-        { role: "user", content: prompt },
+        { role: "user", content: `` },
       ],
     });
 
@@ -86,16 +75,7 @@ async function handleChatMessage(req, res) {
   }
 }
 
-app.post('/trigger-initial-message', async (req, res) => {
-  initialMessageSent = false;
+// Route Handler
+app.post('/chat-message', handleChatMessage);
 
-  try {
-    const handledData = await handleChatMessage(req, res); // Pass along response details for logging if needed
-    console.log('Data handled in handleChatMessage:', handledData); // Example logging
-
-    res.json({ message: "Initial message triggered successfully" });
-  } catch (error) {
-    console.error("Error triggering initial message:", error);
-    res.status(500).json({ message: "Error triggering initial message", error: error.message });
-  }
-});
+// const prompt = "Share a simple greeting to get someone who is living with chronic pain to open up. Something like 'Feel free to ask me any question about your pain or discomfort. What's been bothering you lately?' without including any extra information, context, or lead in";
