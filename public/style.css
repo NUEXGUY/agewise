@@ -176,7 +176,7 @@ li {
   position: absolute;
   top: .3vw;
   right: .1vw;
-  z-index: 2;
+  z-index: 3;
   font-size: 1.5em;
   background-color: var(--nlpt-gray);
   color: var(--nlpt-black);
@@ -197,7 +197,7 @@ li {
 .chatContainer {
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .chatItemBot, .chatItemUser {

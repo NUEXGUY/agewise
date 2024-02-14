@@ -127,7 +127,7 @@ chatInput.addEventListener('keydown', (event) => {
   }
 });
 
-// Send message to OpenAI
+// Send message to the server for OpenAI interaction
 async function sendChatMessage(message, isUser) {
   if (isUser) {
     addChatItem('User', message);
@@ -135,56 +135,71 @@ async function sendChatMessage(message, isUser) {
 
   // Add SVG animation to the chatInput
   chatInput.insertAdjacentHTML('afterend', `<svg width="120" height="20" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="15" cy="15" r="15" fill="#FFFFFF">
-      <animate attributeName="r" from="15" to="15"
-               begin="0s" dur="0.8s"
-               values="15;9;15" calcMode="linear"
-               repeatCount="indefinite" />
-      <animate attributeName="fill-opacity" from="1" to="1"
-               begin="0s" dur="0.8s"
-               values="1;.5;1" calcMode="linear"
-               repeatCount="indefinite" />
-    </circle>
-    <circle cx="60" cy="15" r="9" fill-opacity="0.3" fill="#FFFFFF">
-      <animate attributeName="r" from="9" to="9"
-               begin="0s" dur="0.8s"
-               values="9;15;9" calcMode="linear"
-               repeatCount="indefinite" />
-      <animate attributeName="fill-opacity" from="0.5" to="0.5"
-               begin="0s" dur="0.8s"
-               values=".5;1;.5" calcMode="linear"
-               repeatCount="indefinite" />
-    </circle>
-    <circle cx="105" cy="15" r="15" fill="#FFFFFF">
-      <animate attributeName="r" from="15" to="15"
-               begin="0s" dur="0.8s"
-               values="15;9;15" calcMode="linear"
-               repeatCount="indefinite" />
-      <animate attributeName="fill-opacity" from="1" to="1"
-               begin="0s" dur="0.8s"
-               values="1;.5;1" calcMode="linear"
-               repeatCount="indefinite" />
-    </circle>
-  </svg>`);
+  <circle cx="15" cy="15" r="15" fill="#FFFFFF">
+   <animate attributeName="r" from="15" to="15"
+        begin="0s" dur="0.8s"
+        values="15;9;15" calcMode="linear"
+        repeatCount="indefinite" />
+   <animate attributeName="fill-opacity" from="1" to="1"
+        begin="0s" dur="0.8s"
+        values="1;.5;1" calcMode="linear"
+        repeatCount="indefinite" />
+  </circle>
+  <circle cx="60" cy="15" r="9" fill-opacity="0.3" fill="#FFFFFF">
+   <animate attributeName="r" from="9" to="9"
+        begin="0s" dur="0.8s"
+        values="9;15;9" calcMode="linear"
+        repeatCount="indefinite" />
+   <animate attributeName="fill-opacity" from="0.5" to="0.5"
+        begin="0s" dur="0.8s"
+        values=".5;1;.5" calcMode="linear"
+        repeatCount="indefinite" />
+  </circle>
+  <circle cx="105" cy="15" r="15" fill="#FFFFFF">
+   <animate attributeName="r" from="15" to="15"
+        begin="0s" dur="0.8s"
+        values="15;9;15" calcMode="linear"
+        repeatCount="indefinite" />
+   <animate attributeName="fill-opacity" from="1" to="1"
+        begin="0s" dur="0.8s"
+        values="1;.5;1" calcMode="linear"
+        repeatCount="indefinite" />
+  </circle>
+ </svg>`);
 
+  console.log("Sending message to server:", message);
   try {
     const response = await fetch('/chat-message', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message })
     });
+
+    // Wait for the full response before logging/using it
     const data = await response.json();
+
+    console.log("Server response status:", response.status);
 
     // Replace SVG animation with the original placeholder text
     chatInput.placeholder = 'Enter your question here...';
     document.querySelector('svg').remove();
 
     addChatItem('AI', data.message);
+    console.log("Added AI response to chat:", data.message);
   } catch (error) {
-    console.error('Error sending chat message:', error);
-    addChatItem('AI', "Sorry, I couldn't process your message.");
+    console.error("Error sending chat message:", error);
+    console.error("Error details:", error.message, error.stack);
+
+    // Handle specific error cases based on server response
+    if (error.response && error.response.data && error.response.data.error) {
+      const errorMessage = error.response.data.error.message;
+      addChatItem('AI', errorMessage);
+    } else {
+      addChatItem('AI', "Sorry, I couldn't process your message.");
+    }
   }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const initialBotMessage = "Feeling lost in the fog of chronic pain? You're not alone. Ask your question here and get insights tailored to your experience. Remember, AgeWise isn't a doctor, but we can help you understand your pain better.";

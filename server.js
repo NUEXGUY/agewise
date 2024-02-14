@@ -51,26 +51,46 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Function to send messages
 async function handleChatMessage(req, res) {
+  console.log("Sending message:", req.body.message);
+
   try {
+    // Access relevant user information (e.g., name) from database if needed
+
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo-0125",
       messages: [
-        { role: "system", content: "You are a helpful assistant." },
-        { role: "user", content: `` },
+        {
+          role: "user",
+          content: req.body.message,
+        },
       ],
+      model: "gpt-3.5-turbo-0125",
+      n: 1,
     });
 
     const aiResponse = completion.choices[0].message.content;
+    console.log("Extracted AI response:", aiResponse);
+
     res.json({ message: aiResponse });
   } catch (error) {
-    console.error("Error communicating with OpenAI:", error);
-    res.status(500).json({ message: "Failed to fetch response from OpenAI", error: error.message });
+    if (error.response && error.response.data) {
+      if (error.response.data.error.code === 'rate_limit_reached') {
+        res.status(503).json({ message: "I'm getting too many requests right now. Please try again in a few minutes." });
+      } else if (error.response.data.error.code === 'model_unavailable') {
+        res.status(503).json({ message: "The requested model is unavailable currently. Please try another model or come back later." });
+      } else {
+        console.error("Error communicating with OpenAI:", error);
+        res.status(500).json({ message: "Something went wrong. Please try again later." });
+      }
+    } else {
+      console.error("Error communicating with OpenAI:", error);
+      res.status(500).json({ message: "Something went wrong. Please try again later." });
+    }
   }
 }
 
 // Route Handler
+console.log("Server listening on port 3001");
 app.post('/chat-message', handleChatMessage);
 
 // const prompt = "Share a simple greeting to get someone who is living with chronic pain to open up. Something like 'Feel free to ask me any question about your pain or discomfort. What's been bothering you lately?' without including any extra information, context, or lead in";
