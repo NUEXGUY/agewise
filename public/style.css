@@ -194,6 +194,12 @@ li {
   border: none;
 }
 
+.chatContainer {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
 .chatItemBot, .chatItemUser {
   position: relative;
   z-index: 2;
