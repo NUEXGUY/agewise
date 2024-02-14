@@ -16,12 +16,27 @@ body {
 }
 
 h1 {
+  font-family: "Roboto Condensed", sans-serif;
   font-size: 4em;
   color: var(--nlpt-orange);
   margin: 0;
 }
 
+#wise {
+  font-family: "Kaushan Script", cursive;
+  margin: 0;
+}
+
+#nlpt {
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: .2em;
+  margin-left: 10px;
+  color: var(--nlpt-black);
+  opacity: .7;
+}
+
 h2 {
+  font-family: "Roboto Condensed", sans-serif;
   font-size: 2em;
   color: var(--nlpt-gray);
 }
@@ -202,7 +217,7 @@ li {
   top: 0;
   left: 0;
   background-color: rgba(255, 255, 255, .5);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(3px);
 }
 
 #userInfoContainer {
@@ -220,6 +235,7 @@ li {
 }
 
 #modal #userInfoContainer h2 {
+  font-family: "Roboto Condensed", sans-serif;
   text-align: center;
   font-size: 3em;
   color: var(--nlpt-orange);
