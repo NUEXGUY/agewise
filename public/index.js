@@ -134,7 +134,7 @@ async function sendChatMessage(message, isUser) {
   }
 
   // Add SVG animation to the chatInput
-  chatInput.insertAdjacentHTML('afterend', `<svg width="120" height="30" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg">
+  chatInput.insertAdjacentHTML('afterend', `<svg width="120" height="20" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg">
     <circle cx="15" cy="15" r="15" fill="#FFFFFF">
       <animate attributeName="r" from="15" to="15"
                begin="0s" dur="0.8s"
