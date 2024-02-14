@@ -1,6 +1,9 @@
 const chatSendButton = document.querySelector('#chatSendButton');
 
-chatSendButton.addEventListener('click', sendChatMessage);
+chatSendButton.addEventListener('click', () => {
+  sendChatMessage();
+  chatInput.value = '';
+});
 
 function clearForm() {
   document.querySelector('#name').value = '';
@@ -116,12 +119,12 @@ async function sendChatMessage(message, isUser) {
     });
     const data = await response.json();
 
-    await new Promise(resolve => setTimeout(resolve, 100)); // Wait for a short time (optional)
+    await new Promise(resolve => setTimeout(resolve, 100));
 
-    addChatItem('AI', data.message); // Add AI's response to the chat
+    addChatItem('AI', data.message);
   } catch (error) {
     console.error('Error sending chat message:', error);
-    addChatItem('AI', "Sorry, I couldn't process your message."); // Add error message to the chat
+    addChatItem('AI', "Sorry, I couldn't process your message.");
   }
 }
 
