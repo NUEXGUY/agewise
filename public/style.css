@@ -130,9 +130,9 @@ li {
 }
 
 #contactButton {
-  position: fixed;
-  top: 100px;
-  right: 7px;
+  position: absolute;
+  top: .3vw;
+  right: .1vw;
   z-index: 2;
   font-size: 1.5em;
   color: var(--nlpt-white);
