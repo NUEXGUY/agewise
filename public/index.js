@@ -5,20 +5,6 @@ chatSendButton.addEventListener('click', () => {
   chatInput.value = '';
 });
 
-chatInput.addEventListener('input', () => {
-  if (chatInput.value.trim() === '') {
-    chatSendButton.disabled = true;
-  } else {
-    chatSendButton.disabled = false;
-  }
-});
-
-chatInput.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter' && chatInput.value.trim() === '') {
-    event.preventDefault();
-  }
-});
-
 function clearForm() {
   document.querySelector('#name').value = '';
   document.querySelector('#age').value = '';
@@ -119,6 +105,20 @@ chatInput.addEventListener('keydown', (event) => {
   }
 });
 
+chatInput.addEventListener('input', () => {
+  if (chatInput.value.trim() === '') {
+    chatSendButton.disabled = true;
+  } else {
+    chatSendButton.disabled = false;
+  }
+});
+
+chatInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' && chatInput.value.trim() === '') {
+    event.preventDefault();
+  }
+});
+
 // Send message to OpenAI
 async function sendChatMessage(message, isUser) {
   if (isUser) {
@@ -141,6 +141,14 @@ async function sendChatMessage(message, isUser) {
     addChatItem('AI', "Sorry, I couldn't process your message.");
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const initialBotMessage = "Welcome to the chat!";
+  setTimeout(() => {
+    addChatItem('AI', initialBotMessage);
+    console.log("initialBotMessage:", initialBotMessage);
+  }, 1000);
+});
 
 function addChatItem(sender, message) {
   console.log("sender:", sender, "message:", message);
