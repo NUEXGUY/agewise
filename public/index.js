@@ -179,8 +179,6 @@ async function sendChatMessage(message, isUser) {
     chatInput.placeholder = 'Enter your question here...';
     document.querySelector('svg').remove();
 
-    await new Promise(resolve => setTimeout(resolve, 100));
-
     addChatItem('AI', data.message);
   } catch (error) {
     console.error('Error sending chat message:', error);
@@ -189,7 +187,7 @@ async function sendChatMessage(message, isUser) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const initialBotMessage = "Welcome to the chat!";
+  const initialBotMessage = "Feeling lost in the fog of chronic pain? You're not alone. Ask your question here and get insights tailored to your experience. Remember, AgeWise isn't a doctor, but we can help you understand your pain better.";
   setTimeout(() => {
     addChatItem('AI', initialBotMessage);
   }, 1000);
