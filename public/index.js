@@ -1,8 +1,22 @@
-const chatSendButton = document.querySelector('#chatSendButton');
+const chatSendButton = document.querySelector('#inputBar #chatSendButton');
 
 chatSendButton.addEventListener('click', () => {
   sendChatMessage();
   chatInput.value = '';
+});
+
+chatInput.addEventListener('input', () => {
+  if (chatInput.value.trim() === '') {
+    chatSendButton.disabled = true;
+  } else {
+    chatSendButton.disabled = false;
+  }
+});
+
+chatInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' && chatInput.value.trim() === '') {
+    event.preventDefault();
+  }
 });
 
 function clearForm() {
