@@ -1,7 +1,7 @@
 const chatSendButton = document.querySelector('#inputBar #chatSendButton');
 
 chatSendButton.addEventListener('click', () => {
-  sendChatMessage();
+  sendChatMessage(chatInput.value, true);
   chatInput.value = '';
 });
 
@@ -108,7 +108,7 @@ const chatInput = document.querySelector('#chatInput');
 chatInput.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && event.target === chatInput) {
     event.preventDefault();
-    sendChatMessage(chatInput.value);
+    sendChatMessage(chatInput.value, true);
     chatInput.value = '';
   }
 });

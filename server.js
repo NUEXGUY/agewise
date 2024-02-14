@@ -53,20 +53,27 @@ const openai = new OpenAI({
 
 async function handleChatMessage(req, res) {
   console.log("Sending message:", req.body.message);
+  // Prepare context and user message
+  const context = "As an expert in the field of physical therapy, respond to the following message through the lens of a physical therapist. Be simple, clear, and concise in your resonses, and make them easy to read and take action on. Also, ask some great follow up questions if you need more clarity on the context of the message.";
+  const userMessage = req.body.message;
+
+  const requestBody = {
+    messages: [
+      {
+        role: "system",
+        content: context,
+      },
+      {
+        role: "user",
+        content: userMessage,
+      },
+    ],
+    model: "gpt-3.5-turbo-0125",
+    n: 1,
+  };
 
   try {
-    // Access relevant user information (e.g., name) from database if needed
-
-    const completion = await openai.chat.completions.create({
-      messages: [
-        {
-          role: "user",
-          content: req.body.message,
-        },
-      ],
-      model: "gpt-3.5-turbo-0125",
-      n: 1,
-    });
+    const completion = await openai.chat.completions.create(requestBody);
 
     const aiResponse = completion.choices[0].message.content;
     console.log("Extracted AI response:", aiResponse);
