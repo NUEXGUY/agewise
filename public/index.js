@@ -20,9 +20,17 @@ const contactButton = document.querySelector('#contactButton');
 
 // Toggle modal with overlay and disable/enable inputs
 const toggleModal = () => {
-  modal.style.display = (modal.style.display === 'none' || modal.style.display === '') ? 'flex' : 'none';
-  const inputs = modal.querySelectorAll('input, select');
-  inputs.forEach(input => input.disabled = modal.style.display === 'none');
+  if (modal.style.visibility === 'hidden' || modal.style.visibility === '') {
+    modal.style.opacity = '1';
+    modal.style.visibility = 'visible';
+    const inputs = modal.querySelectorAll('input, select');
+    inputs.forEach(input => input.disabled = false);
+  } else {
+    modal.style.opacity = '0';
+    modal.style.visibility = 'hidden';
+    const inputs = modal.querySelectorAll('input, select');
+    inputs.forEach(input => input.disabled = true);
+  }
 };
 
 contactButton.addEventListener('click', toggleModal);
