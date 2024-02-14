@@ -196,14 +196,13 @@ li {
 
 .chatItemBot, .chatItemUser {
   position: relative;
+  z-index: 2;
   bottom: 60px;
-  margin: 10px 0;
-  padding: 0 20px;
-  width: 50vw;
-  height: auto;
   border-radius: 25px;
   font-size: 1.25em;
   overflow: hidden;
+  background-color: rgba(240, 240, 240, .5);
+  backdrop-filter: blur(3px);
 }
 
 .chatItemBot {
@@ -212,9 +211,6 @@ li {
   padding: 0 20px;
   width: 50vw;
   height: auto;
-  border-radius: 25px;
-  font-size: 1.25em;
-  background-color: var(--nlpt-white);
   text-align: left;
 }
 
@@ -228,9 +224,6 @@ li {
   padding: 0 20px;
   width: 50vw;
   height: auto;
-  border-radius: 25px;
-  font-size: 1.25em;
-  background-color: var(--nlpt-white);
   text-align: right;
 }
 
