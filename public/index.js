@@ -146,12 +146,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const initialBotMessage = "Welcome to the chat!";
   setTimeout(() => {
     addChatItem('AI', initialBotMessage);
-    console.log("initialBotMessage:", initialBotMessage);
   }, 1000);
 });
 
 function addChatItem(sender, message) {
-  console.log("sender:", sender, "message:", message);
   const chatItem = document.createElement('div');
   chatItem.classList.add(sender === 'AI' ? 'chatItemBot' : 'chatItemUser');
   
