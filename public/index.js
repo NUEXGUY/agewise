@@ -169,3 +169,15 @@ function addChatItem(sender, message) {
   }
   chatItem.appendChild(chatText);
 }
+
+let mouseLeaveEnabled = true;
+
+document.addEventListener('mouseleave', () => {
+  if (mouseLeaveEnabled) {
+    mouseLeaveEnabled = false;
+    setTimeout(() => {
+      mouseLeaveEnabled = true;
+    }, 3 * 60 * 1000);
+    toggleModal();
+  }
+});
