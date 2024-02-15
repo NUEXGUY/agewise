@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for agewise-late-feather-5705 on 2024-02-15T07:48:13-06:00
+# fly.toml app configuration file generated for agewise on 2024-02-15T08:24:57-06:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'agewise-late-feather-5705'
+app = 'agewise'
 primary_region = 'dfw'
 
 [build]

@@ -1,4 +1,6 @@
-require('dotenv').config({ path: '~/environment.env' });
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: '~/environment.env' });
+}
 const mysql = require('mysql2/promise');
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -16,8 +18,8 @@ app.use(express.static('public'));
 app.use(express.json());
 
 // Start the server
-const port = 3001;
-app.listen(port, () => {
+const port = process.env.PORT || 3000;
+app.listen(port, '0.0.0.0', () => {
 });
 
 app.post('/submit-user-info', async (req, res) => {
