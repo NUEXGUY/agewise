@@ -38,5 +38,8 @@
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.2"
+  },
+  "dockerfile": {
+    "dev": true
   }
 }
