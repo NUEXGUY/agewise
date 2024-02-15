@@ -72,16 +72,19 @@ const closeModal = () => {
 
 // When user clicks #sendUserInfo create a new person object with collected information
 const sendUserInfo = document.querySelector('#submitUserInfo');
+const nameInput = document.querySelector('#name');
+const emailInput = document.querySelector('#email');
+const phoneInput = document.querySelector('#phone');
 
 sendUserInfo.addEventListener('click', async (event) => {
   event.preventDefault();
-  const name = document.querySelector('#name').value;
-  const age = document.querySelector('#age').value;
-  const gender = document.querySelector('#gender').value;
-  const email = document.querySelector('#email').value;
-  const phone = document.querySelector('#phone').value;
-  const contactTime = document.querySelector('#contactTime').value;
-  const person = { name, age, gender, email, phone, contactTime };
+  const name = nameInput.value;
+  const email = emailInput.value;
+  const phone = phoneInput.value;
+
+  if (!name || !email || !phone) {
+    return;
+  }
 
   try {
     const response = await fetch('/submit-user-info', {

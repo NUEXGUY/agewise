@@ -37,11 +37,18 @@ app.post('/submit-user-info', async (req, res) => {
     // Use the pool to execute your query
     const [result] = await pool.execute(query, values);
     
-    // No need to close connection here, as the pool manages connections automatically
     res.json({ success: true, message: 'User info submitted successfully', result });
   } catch (error) {
-    console.error('Error inserting user info into database:', error);
-    res.status(500).json({ success: false, message: 'Error submitting user info', error: error.message });
+    // Check if the error is due to a duplicate entry
+    if (error.code === 'ER_DUP_ENTRY' || error.sqlState === '23000') {
+      // Treat duplicate entry as a success for the user's perspective
+      console.log('Duplicate user info submission, treating as successful:', error);
+      res.json({ success: true, message: 'User info already submitted', result: {} });
+    } else {
+      // Handle other errors normally
+      console.error('Error inserting user info into database:', error);
+      res.status(500).json({ success: false, message: 'Error submitting user info', error: error.message });
+    }
   }
 });
 
