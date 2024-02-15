@@ -35,5 +35,8 @@
     "express": "^4.18.2",
     "mysql2": "^3.9.1",
     "openai": "^4.27.0"
+  },
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.2"
   }
 }

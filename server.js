@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '~/environment.env' });
+require('dotenv').config({ path: 'environment.env' });
 const mysql = require('mysql2/promise');
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -18,11 +18,9 @@ app.use(express.json());
 // Start the server
 const port = 3001;
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
 });
 
 app.post('/submit-user-info', async (req, res) => {
-  console.log("Received data:", req.body);
   const { name, age, gender, email, phone, contactTime } = req.body;
 
   // Process the input to handle empty strings for age, gender, and contactTime
@@ -52,7 +50,6 @@ const openai = new OpenAI({
 });
 
 async function handleChatMessage(req, res) {
-  console.log("Sending message:", req.body.message);
   // Prepare context and user message
   const context = "As an expert in the field of physical therapy, respond to the following message through the lens of a physical therapist. Be simple, clear, and concise in your resonses, and make them easy to read and take action on. Always end your response with a followup question relevant to their situation.";
   const userMessage = req.body.message;
@@ -76,7 +73,6 @@ async function handleChatMessage(req, res) {
     const completion = await openai.chat.completions.create(requestBody);
 
     const aiResponse = completion.choices[0].message.content;
-    console.log("Extracted AI response:", aiResponse);
 
     res.json({ message: aiResponse });
   } catch (error) {
@@ -97,7 +93,4 @@ async function handleChatMessage(req, res) {
 }
 
 // Route Handler
-console.log("Server listening on port 3001");
 app.post('/chat-message', handleChatMessage);
-
-// const prompt = "Share a simple greeting to get someone who is living with chronic pain to open up. Something like 'Feel free to ask me any question about your pain or discomfort. What's been bothering you lately?' without including any extra information, context, or lead in";

@@ -91,7 +91,6 @@ sendUserInfo.addEventListener('click', async (event) => {
     });
     const data = await response.json();
     if (data.success) {
-      console.log('User info submitted successfully');
       clearForm();
       closeModal();
     } else {
@@ -167,7 +166,6 @@ async function sendChatMessage(message, isUser) {
   </circle>
  </svg>`);
 
-  console.log("Sending message to server:", message);
   try {
     const response = await fetch('/chat-message', {
       method: 'POST',
@@ -178,14 +176,11 @@ async function sendChatMessage(message, isUser) {
     // Wait for the full response before logging/using it
     const data = await response.json();
 
-    console.log("Server response status:", response.status);
-
     // Replace SVG animation with the original placeholder text
     chatInput.placeholder = 'Enter your question here...';
     document.querySelector('svg').remove();
 
     addChatItem('AI', data.message);
-    console.log("Added AI response to chat:", data.message);
   } catch (error) {
     console.error("Error sending chat message:", error);
     console.error("Error details:", error.message, error.stack);
