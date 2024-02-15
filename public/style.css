@@ -361,3 +361,50 @@ button:hover {
   opacity: .7;
 }
 
+@media (max-width: 768px) {
+  
+  #contactButton {
+    display: none;
+  }
+  
+  .headerContent {
+    width: 95vw;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    font-size: 1.5em;
+  }
+
+  #contentLeft {
+    display: none;
+  }
+
+  .chatItemBot, .chatItemUser {
+    font-size: .9em;
+  }
+
+  #inputBar {
+    max-width: 65vw;
+  }
+
+  #chatInput {
+    max-width: 40vw;
+    font-size: .8em;
+  }
+
+  #chatSendButton {
+    width: 8vw;
+    height: 4vh;
+    font-size: 1.25em;
+  }
+
+  #disclaimer {
+    font-size: .75em;
+  }
+
+  #modal {
+    display: none;
+  }
+}
