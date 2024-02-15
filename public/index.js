@@ -200,14 +200,6 @@ async function sendChatMessage(message, isUser) {
   }
 }
 
-
-document.addEventListener('DOMContentLoaded', () => {
-  const initialBotMessage = "Feeling lost in the fog of chronic pain? You're not alone. Ask your question here and get insights tailored to your experience. Remember, AgeWise isn't a doctor, but we can help you understand your pain better.";
-  setTimeout(() => {
-    addChatItem('AI', initialBotMessage);
-  }, 1000);
-});
-
 function addChatItem(sender, message) {
   const chatItem = document.createElement('div');
   chatItem.classList.add(sender === 'AI' ? 'chatItemBot' : 'chatItemUser');
@@ -216,18 +208,21 @@ function addChatItem(sender, message) {
   chatText.classList.add(sender === 'AI' ? 'chatTextBot' : 'chatTextUser');
   chatText.textContent = message;
   
-  const chatContainer = document.querySelector('#chatContainer');
-  const lastChatItem = chatContainer.lastElementChild;
-
-  if (lastChatItem) {
-    // Insert new item after the last existing chat item
-    chatContainer.insertBefore(chatItem, lastChatItem.nextSibling);
-  } else {
-    // Append to container if no existing items
-    chatContainer.appendChild(chatItem);
-  }
+  const chatBox = document.querySelector('#chatBox');
+  chatBox.appendChild(chatItem); // This keeps the appending logic simple
   chatItem.appendChild(chatText);
+
+  // Automatically scroll to the bottom after adding a new message
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const initialBotMessage = "Feeling lost in the fog of chronic pain? You're not alone. Ask your question here and get insights tailored to your experience. Remember, AgeWise isn't a doctor, but we can help you understand your pain better.";
+  addChatItem('AI', initialBotMessage);
+    // Ensure the chatBox scrolls to the bottom after the initial message is added
+    const chatBox = document.querySelector('#chatBox');
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }, 1000);
 
 let mouseLeaveEnabled = true;
 

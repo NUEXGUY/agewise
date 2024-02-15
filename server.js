@@ -54,7 +54,7 @@ const openai = new OpenAI({
 async function handleChatMessage(req, res) {
   console.log("Sending message:", req.body.message);
   // Prepare context and user message
-  const context = "As an expert in the field of physical therapy, respond to the following message through the lens of a physical therapist. Be simple, clear, and concise in your resonses, and make them easy to read and take action on. Also, ask some great follow up questions if you need more clarity on the context of the message.";
+  const context = "As an expert in the field of physical therapy, respond to the following message through the lens of a physical therapist. Be simple, clear, and concise in your resonses, and make them easy to read and take action on. Always end your response with a followup question relevant to their situation.";
   const userMessage = req.body.message;
 
   const requestBody = {
