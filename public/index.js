@@ -81,10 +81,15 @@ sendUserInfo.addEventListener('click', async (event) => {
   const name = nameInput.value;
   const email = emailInput.value;
   const phone = phoneInput.value;
+  const age = document.querySelector('#age').value;
+  const gender = document.querySelector('#gender').value;
+  const contactTime = document.querySelector('#contactTime').value;
 
   if (!name || !email || !phone) {
     return;
   }
+
+  const person = { name, email, phone, age, gender, contactTime };
 
   try {
     const response = await fetch('/submit-user-info', {
