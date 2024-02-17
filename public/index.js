@@ -223,12 +223,12 @@ function addChatItem (sender, message) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const initialBotMessage = "Feeling lost in the fog of chronic pain? You're not alone. Ask your question here and get insights tailored to your experience. Remember, AgeWise isn't a doctor, but we can help you understand your pain better."
+  const initialBotMessage = "Feeling lost in the fog of chronic pain? You're not alone. What's been bothering you lately?"
   addChatItem('AI', initialBotMessage)
   // Ensure the chatBox scrolls to the bottom after the initial message is added
   const chatBox = document.querySelector('#chatBox')
   chatBox.scrollTop = chatBox.scrollHeight
-}, 1000)
+}, 3000)
 
 let mouseLeaveEnabled = true
 
