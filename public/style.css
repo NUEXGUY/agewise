@@ -33,17 +33,27 @@ h1 {
   margin-top: 20px;
 }
 
-#wise {
-  font-family: "Kaushan Script", cursive;
+#age {
   margin: 0;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: -20px;
+  color: #FFFFFF;
+  background-color: #F14D00;
 }
 
-#nlpt {
-  font-family: "Roboto Condensed", sans-serif;
-  font-size: .2em;
-  margin-left: 10px;
-  color: var(--nlpt-black);
-  opacity: .7;
+#wise {
+  font-family: "Kaushan Script";
+  margin: 0;
+  text-shadow: -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff, 3px 3px 0 #fff;
+}
+
+#trademark {
+  position: absolute;
+  transform: translate(-640%, 215%);
+  margin: 0;
+  color: #F14D00;
+  font-size: .45em;
 }
 
 h2 {
