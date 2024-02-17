@@ -14,62 +14,62 @@ function clearForm () {
   document.querySelector('#contactTime').value = ''
 }
 
-const modal = document.querySelector('#modal')
+const userInfoModal = document.querySelector('#userInfoModal')
 const contactButton = document.querySelector('#contactButton')
 
-// Toggle modal with overlay and disable/enable inputs
-const toggleModal = () => {
-  if (modal.style.visibility === 'hidden' || modal.style.visibility === '') {
-    modal.style.opacity = '1'
-    modal.style.visibility = 'visible'
-    const inputs = modal.querySelectorAll('input, select')
+// Toggle userInfoModal with overlay and disable/enable inputs
+const toggleuserInfoModal = () => {
+  if (userInfoModal.style.visibility === 'hidden' || userInfoModal.style.visibility === '') {
+    userInfoModal.style.opacity = '1'
+    userInfoModal.style.visibility = 'visible'
+    const inputs = userInfoModal.querySelectorAll('input, select')
     inputs.forEach(input => {
       input.disabled = false
     })
   } else {
-    modal.style.opacity = '0'
-    modal.style.visibility = 'hidden'
-    const inputs = modal.querySelectorAll('input, select')
+    userInfoModal.style.opacity = '0'
+    userInfoModal.style.visibility = 'hidden'
+    const inputs = userInfoModal.querySelectorAll('input, select')
     inputs.forEach(input => {
       input.disabled = true
     })
   }
 }
 
-contactButton.addEventListener('click', toggleModal)
+contactButton.addEventListener('click', toggleuserInfoModal)
 document.addEventListener('click', (event) => {
-  const modalElement = document.querySelector('#modal')
-  if (!modalElement.contains(event.target) && modalIsOpen) {
+  const userInfoModalElement = document.querySelector('#userInfouserInfoModal')
+  if (!userInfoModalElement.contains(event.target) && userInfoModalIsOpen) {
     // Do nothing, prevent closing due to outside click
   }
 })
 
-let modalIsOpen = false
+let userInfoModalIsOpen = false
 
 window.addEventListener('blur', () => {
-  if (!modalIsOpen) {
-    modalIsOpen = true
-    toggleModal()
+  if (!userInfoModalIsOpen) {
+    userInfoModalIsOpen = true
+    toggleuserInfoModal()
   }
 })
 
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'hidden') {
-    if (!modalIsOpen) {
-      modalIsOpen = true
-      toggleModal()
+    if (!userInfoModalIsOpen) {
+      userInfoModalIsOpen = true
+      toggleuserInfoModal()
     }
   } else { /* empty */ }
 })
 
 document.querySelector('#cancelUserInfo').addEventListener('click', () => {
-  modalIsOpen = false
-  toggleModal()
+  userInfoModalIsOpen = false
+  toggleuserInfoModal()
 })
 
-const closeModal = () => {
-  modalIsOpen = false
-  toggleModal()
+const closeuserInfoModal = () => {
+  userInfoModalIsOpen = false
+  toggleuserInfoModal()
 }
 
 // When user clicks #sendUserInfo create a new person object with collected information
@@ -102,7 +102,7 @@ sendUserInfo.addEventListener('click', async (event) => {
     const data = await response.json()
     if (data.success) {
       clearForm()
-      closeModal()
+      closeuserInfoModal()
     } else {
       console.error('Error submitting user info')
     }
@@ -238,7 +238,7 @@ document.addEventListener('mouseleave', () => {
     setTimeout(() => {
       mouseLeaveEnabled = true
     }, 3 * 60 * 1000)
-    toggleModal()
+    toggleuserInfoModal()
   }
 })
 
