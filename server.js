@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config({ path: '~/environment.env' });
+  require('dotenv').config({ path: '~/environment.env' })
 }
-const mysql = require('mysql2/promise');
+const mysql = require('mysql2/promise')
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -11,95 +11,95 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
-});
-const express = require('express');
-const app = express();
-app.use(express.static('public'));
-app.use(express.json());
+})
+const express = require('express')
+const app = express()
+app.use(express.static('public'))
+app.use(express.json())
 
 // Start the server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000
 app.listen(port, '0.0.0.0', () => {
-});
+})
 
 app.post('/submit-user-info', async (req, res) => {
-  const { name, age, gender, email, phone, contactTime } = req.body;
+  const { name, age, gender, email, phone, contactTime } = req.body
 
   // Process the input to handle empty strings for age, gender, and contactTime
-  const processedAge = age !== '' ? parseInt(age, 10) : null;
-  const processedGender = gender !== '' ? gender : null;
-  const processedContactTime = contactTime !== '' ? contactTime : null;
+  const processedAge = age !== '' ? parseInt(age, 10) : null
+  const processedGender = gender !== '' ? gender : null
+  const processedContactTime = contactTime !== '' ? contactTime : null
 
   try {
-    const query = 'INSERT INTO users (name, age, gender, email, phone, contactTime) VALUES (?, ?, ?, ?, ?, ?)';
-    const values = [name, processedAge, processedGender, email, phone, processedContactTime];
+    const query = 'INSERT INTO users (name, age, gender, email, phone, contactTime) VALUES (?, ?, ?, ?, ?, ?)'
+    const values = [name, processedAge, processedGender, email, phone, processedContactTime]
 
     // Use the pool to execute your query
-    const [result] = await pool.execute(query, values);
-    
-    res.json({ success: true, message: 'User info submitted successfully', result });
+    const [result] = await pool.execute(query, values)
+
+    res.json({ success: true, message: 'User info submitted successfully', result })
   } catch (error) {
     // Check if the error is due to a duplicate entry
     if (error.code === 'ER_DUP_ENTRY' || error.sqlState === '23000') {
       // Treat duplicate entry as a success for the user's perspective
-      console.log('Duplicate user info submission, treating as successful:', error);
-      res.json({ success: true, message: 'User info already submitted', result: {} });
+      console.log('Duplicate user info submission, treating as successful:', error)
+      res.json({ success: true, message: 'User info already submitted', result: {} })
     } else {
       // Handle other errors normally
-      console.error('Error inserting user info into database:', error);
-      res.status(500).json({ success: false, message: 'Error submitting user info', error: error.message });
+      console.error('Error inserting user info into database:', error)
+      res.status(500).json({ success: false, message: 'Error submitting user info', error: error.message })
     }
   }
-});
+})
 
-const OpenAI = require("openai");
+const OpenAI = require('openai')
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+  apiKey: process.env.OPENAI_API_KEY
+})
 
-async function handleChatMessage(req, res) {
+async function handleChatMessage (req, res) {
   // Prepare context and user message
-  const context = "As an expert in the field of physical therapy, respond to the following message through the lens of a physical therapist. Be simple, clear, and concise in your resonses, and make them easy to read and take action on. Always end your response with a followup question relevant to their situation.";
-  const userMessage = req.body.message;
+  const context = 'As an expert in the field of physical therapy, respond to the following message through the lens of a physical therapist. Be simple, clear, and concise in your resonses, and make them easy to read and take action on. Always end your response with a followup question relevant to their situation.'
+  const userMessage = req.body.message
 
   const requestBody = {
     messages: [
       {
-        role: "system",
-        content: context,
+        role: 'system',
+        content: context
       },
       {
-        role: "user",
-        content: userMessage,
-      },
+        role: 'user',
+        content: userMessage
+      }
     ],
-    model: "gpt-3.5-turbo-0125",
-    n: 1,
-  };
+    model: 'gpt-3.5-turbo-0125',
+    n: 1
+  }
 
   try {
-    const completion = await openai.chat.completions.create(requestBody);
+    const completion = await openai.chat.completions.create(requestBody)
 
-    const aiResponse = completion.choices[0].message.content;
+    const aiResponse = completion.choices[0].message.content
 
-    res.json({ message: aiResponse });
+    res.json({ message: aiResponse })
   } catch (error) {
     if (error.response && error.response.data) {
       if (error.response.data.error.code === 'rate_limit_reached') {
-        res.status(503).json({ message: "I'm getting too many requests right now. Please try again in a few minutes." });
+        res.status(503).json({ message: "I'm getting too many requests right now. Please try again in a few minutes." })
       } else if (error.response.data.error.code === 'model_unavailable') {
-        res.status(503).json({ message: "The requested model is unavailable currently. Please try another model or come back later." });
+        res.status(503).json({ message: 'The requested model is unavailable currently. Please try another model or come back later.' })
       } else {
-        console.error("Error communicating with OpenAI:", error);
-        res.status(500).json({ message: "Something went wrong. Please try again later." });
+        console.error('Error communicating with OpenAI:', error)
+        res.status(500).json({ message: 'Something went wrong. Please try again later.' })
       }
     } else {
-      console.error("Error communicating with OpenAI:", error);
-      res.status(500).json({ message: "Something went wrong. Please try again later." });
+      console.error('Error communicating with OpenAI:', error)
+      res.status(500).json({ message: 'Something went wrong. Please try again later.' })
     }
   }
 }
 
 // Route Handler
-app.post('/chat-message', handleChatMessage);
+app.post('/chat-message', handleChatMessage)
