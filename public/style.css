@@ -219,7 +219,7 @@ li {
   color: var(--nlpt-black);
 }
 
-#modal {
+#userInfoModal {
   display: flex;
   align-items: top;
   justify-content: center;
@@ -236,7 +236,7 @@ li {
   transition: opacity 0.3s ease-in-out, visibility .3s ease-in-out;
 }
 
-#modal.visible {
+#userInfoModal.visible {
   opacity: 1;
   visibility: visible;
 }
@@ -255,7 +255,7 @@ li {
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
-#modal #userInfoContainer h2 {
+#userInfoModal #userInfoContainer h2 {
   font-family: "Roboto Condensed", sans-serif;
   text-align: center;
   font-size: 3em;
@@ -264,7 +264,7 @@ li {
   align-self: center;
 }
 
-#modal #userInfoContainer p {
+#userInfoModal #userInfoContainer p {
   text-align: center;
   font-size: 1.5em;
   color: var(--nlpt-black);
@@ -324,14 +324,14 @@ button:hover {
   transform: scale(1.1);
 }
 
-#modal #userInfoContainer #userInfoForm #cancelUserInfo {
+#userInfoModal #userInfoContainer #userInfoForm #cancelUserInfo {
   background-color: var(--nlpt-gray);
   color: var(--nlpt-black);
   border: 1px solid var(--nlpt-black);
 }
 
 
-#modal #userInfoContainer #userInfoForm #disclaimerForm {
+#userInfoModal #userInfoContainer #userInfoForm #disclaimerForm {
   font-size: 1em;
   color: var(--nlpt-black);
   opacity: .7;
@@ -404,7 +404,7 @@ button:hover {
     font-size: .75em;
   }
 
-  #modal {
+  #userInfoModal {
     display: none;
   }
 }
