@@ -38,7 +38,7 @@ const toggleuserInfoModal = () => {
 
 contactButton.addEventListener('click', toggleuserInfoModal)
 document.addEventListener('click', (event) => {
-  const userInfoModalElement = document.querySelector('#userInfouserInfoModal')
+  const userInfoModalElement = document.querySelector('#userInfoModal')
   if (!userInfoModalElement.contains(event.target) && userInfoModalIsOpen) {
     // Do nothing, prevent closing due to outside click
   }
