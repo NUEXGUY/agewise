@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config({ path: '~/environment.env' })
+  require('dotenv').config({ path: 'environment.env' })
 }
 const mysql = require('mysql2/promise')
 const pool = mysql.createPool({
@@ -50,6 +50,34 @@ app.post('/submit-user-info', async (req, res) => {
       res.status(500).json({ success: false, message: 'Error submitting user info', error: error.message })
     }
   }
+})
+
+const gtagSource = process.env.GTAG_SOURCE
+const gtag = process.env.GTAG
+const clarity = process.env.CLARITY
+
+// Set up a route to serve the HTML content with the injected variables
+app.get('/', (req, res) => {
+  const htmlContent = `
+    <!-- Google tag (gtag.js) -->
+    <script async id="gtagsrc" src="${gtagSource}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${gtag}');
+    </script>
+
+    <!-- Microsoft Clarity Analytics -->
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/${clarity}";
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "${clarity}");
+    </script>
+  `
+  res.send(htmlContent)
 })
 
 const OpenAI = require('openai')
