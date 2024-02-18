@@ -101,6 +101,8 @@ sendUserInfo.addEventListener('click', async (event) => {
     })
     const data = await response.json()
     if (data.success) {
+      // eslint-disable-next-line no-undef
+      dataLayer.push({ event: 'formSubmitted', formId: 'submitUserInfo' })
       clearForm()
       closeuserInfoModal()
     } else {
