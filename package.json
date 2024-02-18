@@ -1,7 +1,7 @@
 {
   "name": "agewise",
   "version": "1.0.0",
-  "description": "AgeWise is a AgeWise is a chatbot application designed to provide educational support and personalized advice for individuals experiencing chronic pain. Utilizing OpenAI's advanced AI, AgeWise offers an interactive platform for users to learn about non-pharmacological pain management techniques, understand their conditions better, and explore potential solutions for improved well-being.",
+  "description": "AgeWise is a chatbot application designed to provide educational support and personalized advice for individuals experiencing chronic pain. Utilizing OpenAI's advanced AI, AgeWise offers an interactive platform for users to learn about non-pharmacological pain management techniques, understand their conditions better, and explore potential solutions for improved well-being.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
