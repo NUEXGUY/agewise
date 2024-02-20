@@ -18,7 +18,7 @@ const userInfoModal = document.querySelector('#userInfoModal')
 const contactButton = document.querySelector('#contactButton')
 
 // Toggle userInfoModal with overlay and disable/enable inputs
-const toggleuserInfoModal = () => {
+const toggleUserInfoModal = () => {
   if (userInfoModal.style.visibility === 'hidden' || userInfoModal.style.visibility === '') {
     userInfoModal.style.opacity = '1'
     userInfoModal.style.visibility = 'visible'
@@ -36,7 +36,7 @@ const toggleuserInfoModal = () => {
   }
 }
 
-contactButton.addEventListener('click', toggleuserInfoModal)
+contactButton.addEventListener('click', toggleUserInfoModal)
 document.addEventListener('click', (event) => {
   const userInfoModalElement = document.querySelector('#userInfoModal')
   if (!userInfoModalElement.contains(event.target) && userInfoModalIsOpen) {
@@ -49,7 +49,7 @@ let userInfoModalIsOpen = false
 window.addEventListener('blur', () => {
   if (!userInfoModalIsOpen) {
     userInfoModalIsOpen = true
-    toggleuserInfoModal()
+    toggleUserInfoModal()
   }
 })
 
@@ -57,19 +57,19 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'hidden') {
     if (!userInfoModalIsOpen) {
       userInfoModalIsOpen = true
-      toggleuserInfoModal()
+      toggleUserInfoModal()
     }
   } else { /* empty */ }
 })
 
 document.querySelector('#cancelUserInfo').addEventListener('click', () => {
   userInfoModalIsOpen = false
-  toggleuserInfoModal()
+  toggleUserInfoModal()
 })
 
 const closeuserInfoModal = () => {
   userInfoModalIsOpen = false
-  toggleuserInfoModal()
+  toggleUserInfoModal()
 }
 
 // When user clicks #sendUserInfo create a new person object with collected information
@@ -240,7 +240,7 @@ document.addEventListener('mouseleave', () => {
     setTimeout(() => {
       mouseLeaveEnabled = true
     }, 3 * 60 * 1000)
-    toggleuserInfoModal()
+    toggleUserInfoModal()
   }
 })
 
@@ -249,5 +249,9 @@ chatInput.addEventListener('focus', function () {
 })
 
 chatInput.addEventListener('blur', function () {
-  chatInput.placeholder = 'Start typing here...'
+  chatInput.placeholder = 'Type your message...'
 })
+
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(toggleUserInfoModal, 120000);
+});
